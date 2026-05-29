@@ -1,0 +1,10 @@
+[project]
+name = "student-info-system"
+version = "1.0.0"
+requires-python = ">=3.9"
+
+[tool.vercel]
+entrypoint = "student_system.wsgi:application"
+
+[tool.vercel.scripts]
+build = "python build.py"
