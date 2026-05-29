@@ -2,6 +2,18 @@
 name = "student-info-system"
 version = "1.0.0"
 requires-python = ">=3.9"
+dependencies = [
+    "Django==4.2.0",
+    "djangorestframework==3.14.0",
+    "Pillow==9.5.0",
+    "psycopg2-binary==2.9.6",
+    "python-decouple==3.8",
+    "python-dotenv==1.0.1",
+    "dj-database-url==2.1.0",
+    "celery==5.2.7",
+    "redis==4.5.4",
+    "gunicorn==20.1.0",
+]
 
 [tool.vercel]
 entrypoint = "student_system.wsgi:application"
