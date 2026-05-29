@@ -1,0 +1,152 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Take Attendance{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Take Attendance</h1>
+
+    <form method="get" class="attendance-form">
+        <div class="form-group">
+            <label for="course">Select Course</label>
+            <select id="course" name="course" required>
+                <option value="">-- Select Course --</option>
+                {% for course in courses %}
+                <option value="{{ course.id }}" {% if selected_course.id == course.id %}selected{% endif %}>{{ course.code }} - {{ course.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" value="{{ selected_date }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Load Students</button>
+    </form>
+
+    {% if selected_course and selected_date %}
+    <form method="post" class="attendance-form">
+        {% csrf_token %}
+        <input type="hidden" name="course" value="{{ selected_course.id }}">
+        <input type="hidden" name="date" value="{{ selected_date }}">
+
+        <div class="attendance-table-container">
+            <h2>{{ selected_course.name }} - {{ selected_date }}</h2>
+            <table class="attendance-table">
+                <thead>
+                    <tr>
+                        <th>Student ID</th>
+                        <th>Name</th>
+                        <th>Present</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enrollment in students %}
+                    <tr>
+                        <td>{{ enrollment.student.student_id }}</td>
+                        <td>{{ enrollment.student.user.get_full_name }}</td>
+                        <td>
+                            <input type="checkbox" name="present_{{ enrollment.student.id }}" checked>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3">No students enrolled in this course.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if students %}
+            <button type="submit" class="btn btn-primary">Save Attendance</button>
+            {% endif %}
+        </div>
+    </form>
+    {% endif %}
+</div>
+
+<style>
+    .container {
+        width: 100%;
+        max-width: 1000px;
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    .attendance-form {
+        margin-bottom: 40px;
+        display: grid;
+        gap: 20px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-bottom: 5px;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+
+    select, input[type="date"] {
+        padding: 10px;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        font-size: 14px;
+        max-width: 400px;
+    }
+
+    .btn-primary {
+        background: #667eea;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: 600;
+        max-width: 200px;
+    }
+
+    .btn-primary:hover {
+        background: #764ba2;
+    }
+
+    .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .attendance-table th {
+        background: #f5f5f5;
+        padding: 12px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .attendance-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}

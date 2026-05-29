@@ -1,0 +1,131 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Manage Courses{% endblock %}
+
+{% block content %}
+<div class="admin-page">
+    <div class="page-header">
+        <div>
+            <h1>Manage Courses</h1>
+            <p>View, edit, and remove courses in the system.</p>
+        </div>
+        <a href="{% url 'admin_panel:add_course' %}" class="btn btn-primary">Add Course</a>
+    </div>
+
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Instructor</th>
+                    <th>Credits</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if courses %}
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.code }}</td>
+                        <td>{{ course.name }}</td>
+                        <td>{{ course.instructor.get_full_name|default:'Unassigned' }}</td>
+                        <td>{{ course.credits }}</td>
+                        <td>{{ course.is_active|yesno:"Active,Inactive" }}</td>
+                        <td>
+                            <a href="{% url 'admin_panel:edit_course' course.pk %}">Edit</a>
+                            <span class="divider">|</span>
+                            <a href="{% url 'admin_panel:delete_course' course.pk %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6">No courses available.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    .admin-page {
+        max-width: 1100px;
+        margin: 40px auto;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 20px;
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-size: 32px;
+        color: #111827;
+    }
+
+    .page-header p {
+        margin: 8px 0 0;
+        color: #475569;
+    }
+
+    .btn-primary {
+        padding: 12px 20px;
+        background: #2563eb;
+        color: white;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .btn-primary:hover {
+        opacity: 0.92;
+    }
+
+    .table-card {
+        background: white;
+        border-radius: 18px;
+        padding: 24px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 16px 14px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+        text-transform: uppercase;
+        color: #475569;
+        font-size: 13px;
+        letter-spacing: 0.04em;
+    }
+
+    td {
+        color: #334155;
+    }
+
+    .divider {
+        margin: 0 8px;
+        color: #9ca3af;
+    }
+
+    a {
+        color: #2563eb;
+        text-decoration: none;
+        font-weight: 600;
+    }
+</style>
+
+{% endblock %}

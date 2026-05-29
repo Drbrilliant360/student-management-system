@@ -1,0 +1,155 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <div class="profile-header">
+            <div class="profile-avatar">{{ user.first_name|first|upper }}</div>
+            <h1>{{ user.get_full_name }}</h1>
+            <p class="role-badge">{{ user.get_role_display }}</p>
+        </div>
+        
+        <div class="profile-details">
+            <div class="detail-item">
+                <label>Username</label>
+                <p>{{ user.username }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Email</label>
+                <p>{{ user.email }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>First Name</label>
+                <p>{{ user.first_name }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Last Name</label>
+                <p>{{ user.last_name }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Phone</label>
+                <p>{{ user.phone|default:"Not provided" }}</p>
+            </div>
+            
+            <div class="detail-item">
+                <label>Joined</label>
+                <p>{{ user.date_joined|date:"M d, Y" }}</p>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <a href="{% url 'accounts:login' %}" class="btn btn-edit">Edit Profile</a>
+            <a href="{% url 'accounts:logout' %}" class="btn btn-logout">Logout</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-container {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .profile-card {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        max-width: 600px;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+    }
+    
+    .profile-avatar {
+        width: 100px;
+        height: 100px;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        margin: 0 auto 20px;
+    }
+    
+    .profile-header h1 {
+        color: white;
+        margin-bottom: 5px;
+    }
+    
+    .role-badge {
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.3);
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+    
+    .profile-details {
+        padding: 30px;
+        display: grid;
+        gap: 20px;
+    }
+    
+    .detail-item label {
+        color: #667eea;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .detail-item p {
+        color: #555;
+    }
+    
+    .profile-actions {
+        padding: 20px 30px;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 15px;
+    }
+    
+    .btn {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+    
+    .btn-edit {
+        background: #667eea;
+        color: white;
+    }
+    
+    .btn-edit:hover {
+        background: #764ba2;
+    }
+    
+    .btn-logout {
+        background: #e74c3c;
+        color: white;
+    }
+    
+    .btn-logout:hover {
+        background: #c0392b;
+    }
+</style>
+{% endblock %}

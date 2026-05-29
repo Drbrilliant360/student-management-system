@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+
+{% block title %}My Courses{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>My Courses</h1>
+    
+    <div class="courses-list">
+        {% for enrollment in courses %}
+        <div class="course-card">
+            <h3>{{ enrollment.course.name }}</h3>
+            <p><strong>Code:</strong> {{ enrollment.course.code }}</p>
+            <p><strong>Credits:</strong> {{ enrollment.course.credits }}</p>
+            <p><strong>Enrolled:</strong> {{ enrollment.enrollment_date|date:"M d, Y" }}</p>
+        </div>
+        {% empty %}
+        <p>No courses enrolled</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .container {
+        width: 100%;
+        max-width: 1000px;
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+    
+    .courses-list {
+        display: grid;
+        gap: 20px;
+    }
+    
+    .course-card {
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 20px;
+        transition: all 0.3s;
+    }
+    
+    .course-card:hover {
+        box-shadow: 0 5px 15px rgba(102,126,234,0.2);
+        border-color: #667eea;
+    }
+    
+    .course-card h3 {
+        color: #667eea;
+        margin-bottom: 10px;
+    }
+    
+    .course-card p {
+        margin: 5px 0;
+        color: #555;
+    }
+</style>
+{% endblock %}

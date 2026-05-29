@@ -1,0 +1,136 @@
+{% extends 'base/base.html' %}
+
+{% block title %}View Attendance{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>View Attendance Records</h1>
+
+    <form method="get" class="filter-form">
+        <div class="form-group">
+            <label for="course">Select Course</label>
+            <select id="course" name="course" onchange="this.form.submit()">
+                <option value="">-- Select Course --</option>
+                {% for course in courses %}
+                <option value="{{ course.id }}" {% if selected_course.id == course.id %}selected{% endif %}>{{ course.code }} - {{ course.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </form>
+
+    {% if selected_course %}
+    <h2>{{ selected_course.name }} - Attendance Records</h2>
+    <table class="attendance-table">
+        <thead>
+            <tr>
+                <th>Student ID</th>
+                <th>Student Name</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance_records %}
+            <tr>
+                <td>{{ record.student.student_id }}</td>
+                <td>{{ record.student.user.get_full_name }}</td>
+                <td>{{ record.date|date:"M d, Y" }}</td>
+                <td>
+                    <span class="status-badge {% if record.is_present %}present{% else %}absent{% endif %}">
+                        {{ record.is_present|yesno:"Present,Absent" }}
+                    </span>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No attendance records found for this course.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</div>
+
+<style>
+    .container {
+        width: 100%;
+        max-width: 1000px;
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+
+    h2 {
+        color: #2c3e50;
+        margin-top: 40px;
+        margin-bottom: 20px;
+    }
+
+    .filter-form {
+        margin-bottom: 30px;
+        display: flex;
+        gap: 20px;
+        align-items: flex-end;
+    }
+
+    .form-group {
+        flex: 1;
+        max-width: 400px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #2c3e50;
+        font-weight: 600;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #bdc3c7;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .attendance-table th {
+        background: #f5f5f5;
+        padding: 12px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .attendance-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .status-badge.present {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-badge.absent {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>
+{% endblock %}

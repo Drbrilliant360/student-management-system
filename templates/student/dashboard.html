@@ -1,0 +1,155 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h1>Welcome, {{ user.first_name|default:user.username }}! 👋</h1>
+        <p>Here's your dashboard overview</p>
+    </div>
+    
+    <div class="dashboard-grid">
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <h3>My Courses</h3>
+            <p class="card-stat">{{ courses.count|default:0 }} courses</p>
+            <p>View all your enrolled courses</p>
+            <a href="{% url 'student:courses' %}" class="btn btn-link">View Courses</a>
+        </div>
+        
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <h3>My Marks</h3>
+            <p class="card-stat">Keep track of your grades</p>
+            <p>View your academic performance</p>
+            <a href="{% url 'student:marks' %}" class="btn btn-link">View Marks</a>
+        </div>
+        
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            <h3>My Attendance</h3>
+            <p class="card-stat">Check your attendance</p>
+            <p>Monitor your class attendance</p>
+            <a href="{% url 'student:attendance' %}" class="btn btn-link">View Attendance</a>
+        </div>
+        
+        <div class="dashboard-card">
+            <div class="card-icon">
+                <i class="fas fa-money-bill"></i>
+            </div>
+            <h3>My Fees</h3>
+            <p class="card-stat">Fees & Payments</p>
+            <p>Check your fee status</p>
+            <a href="{% url 'student:fees' %}" class="btn btn-link">View Fees</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-container {
+        width: 100%;
+    }
+    
+    .dashboard-header {
+        margin-bottom: 30px;
+    }
+    
+    .dashboard-header h1 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-size: 32px;
+    }
+    
+    .dashboard-header p {
+        color: #7f8c8d;
+        font-size: 16px;
+    }
+    
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 25px;
+        margin-top: 30px;
+    }
+    
+    .dashboard-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border-top: 4px solid #667eea;
+    }
+    
+    .dashboard-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
+    }
+    
+    .card-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+    
+    .dashboard-card h3 {
+        color: #2c3e50;
+        margin-bottom: 10px;
+        font-size: 20px;
+    }
+    
+    .card-stat {
+        color: #667eea;
+        font-weight: 600;
+        font-size: 18px;
+        margin-bottom: 8px;
+    }
+    
+    .dashboard-card p {
+        color: #7f8c8d;
+        margin-bottom: 15px;
+        font-size: 14px;
+    }
+    
+    .btn-link {
+        display: inline-block;
+        color: white;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+    
+    .btn-link:hover {
+        transform: translateX(5px);
+        text-decoration: none;
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .dashboard-header h1 {
+            font-size: 24px;
+        }
+    }
+</style>
+{% endblock %}

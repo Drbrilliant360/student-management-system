@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div class="home-card">
+        <div class="hero-section">
+            <h1>Student Information System</h1>
+            <p>PERFECTION ON MANAGEMENT</p>
+        </div>
+
+        <div class="button-group">
+            <a href="{% url 'accounts:login' %}" class="btn btn-primary">Student Login</a>
+            <a href="{% url 'accounts:signup' %}" class="btn btn-secondary">Sign Up</a>
+            <a href="{% url 'accounts:staff_login' %}" class="btn btn-primary">Staff Login</a>
+            <a href="{% url 'accounts:login' %}" class="btn btn-secondary">Admin Panel</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

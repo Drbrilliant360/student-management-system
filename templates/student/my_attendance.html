@@ -1,0 +1,85 @@
+{% extends 'base/base.html' %}
+
+{% block title %}My Attendance{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>My Attendance</h1>
+    
+    <table class="attendance-table">
+        <thead>
+            <tr>
+                <th>Course</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in attendance %}
+            <tr>
+                <td>{{ record.course.code }}</td>
+                <td>{{ record.date|date:"M d, Y" }}</td>
+                <td>
+                    <span class="status {% if record.is_present %}present{% else %}absent{% endif %}">
+                        {% if record.is_present %}Present{% else %}Absent{% endif %}
+                    </span>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No attendance records</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .container {
+        width: 100%;
+        max-width: 1000px;
+        background: white;
+        border-radius: 10px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+    }
+    
+    .attendance-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .attendance-table th {
+        background: #f5f5f5;
+        padding: 12px;
+        text-align: left;
+        border-bottom: 2px solid #ddd;
+    }
+    
+    .attendance-table td {
+        padding: 12px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .status {
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-weight: 600;
+    }
+    
+    .status.present {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status.absent {
+        background: #f8d7da;
+        color: #721c24;
+    }
+</style>
+{% endblock %}
