@@ -17,7 +17,10 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY') or config(
 )
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG') == '1' or config('DEBUG', default=True, cast=bool)
+if os.environ.get('VERCEL'):
+    DEBUG = os.environ.get('DJANGO_DEBUG') == '1'
+else:
+    DEBUG = os.environ.get('DJANGO_DEBUG') == '1' or config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = list(
     config(
